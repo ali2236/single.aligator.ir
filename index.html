@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single?</title>
+    <meta name="description" content="Find hot singles in your area">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style> * { font-family: 'Fuzzy Bubbles', cursive; } </style>
+</head>
+<body class="bg-violet-400 overflow-hidden" x-data="{ page: 'home', p : 5000 }" x-on:go-result="page = 'result'" x-on:search="$nextTick(() => { p-- })">
+    <div class="container mx-auto">
+        <!-- home -->
+        <div x-show="page==='home'" x-transition>
+            <div class="flex flex-col justify-center items-center">
+                <h2 class="text-5xl font-bold mt-48">Single?</h2>
+                <p class="m-2 text-fuchsia-200">no worries. find hot singles in your area!</p>
+                <button x-on:click="page = 'searching'; $dispatch('search');" class="shadow-md rounded-md p-3 mx-4 mt-8 w-48 bg-violet-700 hover:bg-violet-600 text-white text-md">Start searching</button>
+            </div>
+        </div>
+        <!-- searching -->
+        <div x-show="page==='searching'" x-transition>
+            <div class="flex flex-col justify-center items-center">
+                <lottie-player class="mt-40" speed="1" style="width: 300px; height: 300px;" src="https://assets9.lottiefiles.com/packages/lf20_pO9kpN.json" background="transparent" loop autoplay></lottie-player>
+                <p class="m-2 text-fuchsia-100">Searching<span x-init="$watch('p', () => { var s = (p/600)%3; $el.textContent = (s<1 ? '...' : s<2? '..' : '.'); $dispatch(p>0?'search':'go-result'); })"></span></p>
+            </div>
+        </div>
+        <!-- result -->
+        <div x-show="page==='result'" x-transition>
+            <div class="flex flex-col justify-center items-center">
+                <img class="mt-40" width="240px" height="240px" src="komi.webp" alt="komi" />
+                <p class="font-bold text-6xl mt-4">Its you!</p>
+                <p class="m-4 text-center">fortunately or unfortunately you're the hottest single in your area!</p>
+            </div>
+        </div>
+    </div>
+    <!-- background -->
+    <div class="absolute -bottom-8 -right-16 w-64 h-64 bg-fuchsia-300 opacity-50 rounded-full"></div>
+    <div class="absolute -bottom-16 right-16 w-32 h-32 bg-fuchsia-300 opacity-50 rounded-full"></div>
+    <div class="absolute -top-16 -left-32 w-64 h-64 bg-fuchsia-300 opacity-50 rounded-full"></div>
+    <!-- analytics -->
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"aligator",utcoffset:"4"}))};sessionStorage.setItem("_swa","1");</script>
+</body>
+</html>
